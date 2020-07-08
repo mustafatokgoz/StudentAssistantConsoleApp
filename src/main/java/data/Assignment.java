@@ -2,13 +2,30 @@ package data;
 
 import java.util.Date;
 
+/**
+ * Class for representing Assignment of any Room
+ */
 public class Assignment implements Message, Comparable<Date> {
+	/**
+	 * this dtring keep the message
+	 */
 	private String message;
 
+	/**
+	 * this date class keeping for new create
+	 */
 	private Date createDate;
 
-	private Date assigmentDate;
 
+	/**
+	 * this date class keeping for assigment
+	 */
+	private Date assignmentDate;
+
+
+	/**
+	 * keepin for link
+	 */
 	private String link;
 
 	@Override
@@ -16,6 +33,11 @@ public class Assignment implements Message, Comparable<Date> {
 		return null;
 	}
 
+	/**
+	 * Sets link of the assignment
+	 *
+	 * @param link Link of the assignment
+	 */
 	public void setLink(String link) {
 		this.link = link;
 	}
@@ -25,17 +47,30 @@ public class Assignment implements Message, Comparable<Date> {
 		return null;
 	}
 
-	public Date getAssigmentDate() {
-		return assigmentDate;
+
+	/**
+	 * Gets assigment date of the assignment
+	 *
+	 * @return The date of the assigment
+	 */
+	public Date getAssignmentDate() {
+		return assignmentDate;
 	}
-	public void setAssigmentDate(Date o){ this.assigmentDate=o;}
+
+	/**
+	 * Set date of the assigment to other date
+	 *
+	 * @param o Other date object
+	 */
+	public void setAssignmentDate(Date o){ this.assignmentDate =o;}
+
 	@Override
 	public String toString() {
 		return "Assignment\n" +
 				"message='" + message + '\n' +
 				"link='" + link + '\n' +
 				"createDate=" + createDate + '\n' +
-				"assignmentDate=" + assigmentDate + '\n';
+				"assignmentDate=" + assignmentDate + '\n';
 	}
 
 
@@ -80,7 +115,7 @@ public class Assignment implements Message, Comparable<Date> {
 	 */
 	@Override
 	public int compareTo(Date o) {
-		return this.assigmentDate.compareTo(o);
+		return this.assignmentDate.compareTo(o);
 
 	}
 }

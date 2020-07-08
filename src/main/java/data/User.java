@@ -2,28 +2,111 @@ package data;
 
 import java.util.PriorityQueue;
 
+/**
+ * Class for representing Users of the System
+ */
 public class User implements Comparable<User> {
 
+    /**
+     * Profile of the User
+     */
     private final Profile profile;
-    private final PriorityQueue<Room> rooms;
 
-    User(String userName, String mail) {
+    /**
+     * PriorityQueue Data Structure for storing rooms of the user attended
+     */
+    private final PriorityQueue<Room> rooms;
+    /**
+     * Calendar of User
+     */
+    private final Calendar userCalendar;
+
+    /**
+     * Constructor method for inserting profile of the user
+     *
+     * @param userName Username of the User
+     * @param mail     Mail of the User
+     */
+    public User(String userName, String mail) {
         this.profile = new Profile(userName, mail);
-        this.rooms = new PriorityQueue<Room>();
+        this.userCalendar = new Calendar();
+        this.rooms = new PriorityQueue<>();
     }
 
+    /**
+     * Takes Message from user and creates an UserMessage object
+     *
+     * @param message User's Message
+     * @return UserMessage Object
+     */
+    public UserMessage addMessage(String message) {
+        return new UserMessage(this, message, new java.util.Date());
+    }
+
+    /**
+     * Adds room to the priorityQueue
+     *
+     * @param newRoom Room to inserting
+     * @return True if adding was successful else false
+     */
     public boolean addRoom(Room newRoom) {
+        updateCalendar(newRoom.getRoomCalendar());
         return rooms.add(newRoom);
     }
 
+    /**
+     * Getter method for Calendar
+     * @return Calendar of user
+     */
+    public Calendar getCalendar() {
+        return userCalendar;
+    }
+
+    /**
+     * Update users calendar
+     * @param roomCalendar Calendar of room
+     */
+    public void updateCalendar(Calendar roomCalendar) {
+        userCalendar.getDates().putAll(roomCalendar.getDates());
+    }
+
+    /**
+     * Remove given room from system
+     *
+     * @param room Target Room
+     * @return True if removing was successful
+     */
     public boolean removeRoom(Room room) {
         return rooms.remove(room);
     }
 
+    /**
+     * Getter method for Room queue
+     *
+     * @return Return PriorityQueue of users
+     */
     public PriorityQueue<Room> roomList() {
         return rooms;
     }
 
+    /**
+     * Returns All rooms' information
+     *
+     * @return Rooms' string
+     */
+    public String getRoomString() {
+        StringBuilder sb = new StringBuilder();
+        for (Room room : rooms) {
+            sb.append(room.getNameOfRoom()).append("\nID: ")
+                    .append(room.getCodeOfRoom()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Getter method of Profile
+     * @return Profile of User
+     */
     public Profile getProfile() {
         return profile;
     }
@@ -72,10 +155,12 @@ public class User implements Comparable<User> {
         return this.profile.compareTo(o.getProfile());
     }
 
+    /**
+     * Inner class for representing Profile of the User
+     */
     public static class Profile implements Comparable<Profile> {
         private final String userName;
         private final String mail;
-
 
         public Profile(String name, String mail) {
             this.userName = name;
@@ -102,8 +187,8 @@ public class User implements Comparable<User> {
         @Override
         public int compareTo(Profile other) {
             if (this.userName.compareTo(other.userName) == 0) {
-                    if (this.mail.equals(other.mail))
-                        return 0;
+                if (this.mail.equals(other.mail))
+                    return 0;
             } else if (this.userName.compareTo(other.userName) < 0) {
                 return -1;
             }
